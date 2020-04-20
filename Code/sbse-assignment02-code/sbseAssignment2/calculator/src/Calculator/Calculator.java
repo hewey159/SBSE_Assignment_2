@@ -94,4 +94,17 @@ public class Calculator {
         return totalPixelCount;
     }
     
+    
+    //reutrns the difference between colors where int[] = [red, green, blue]
+    public double EuclideanDistanceBetweenTheColours(int[] colour1, int[] colour2){
+        
+        double red = Math.pow(colour1[0] - colour2[0], 2);
+        double green = Math.pow(colour1[1] - colour2[1], 2);
+        double blue = Math.pow(colour1[2] - colour2[2], 2);
+
+        double distance = Math.sqrt(red + green + blue);
+        
+        return distance;
+    }
+
 }
