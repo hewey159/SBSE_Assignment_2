@@ -24,10 +24,11 @@ public class Calculator {
         
         //inital power consumtion, -1 is error
         float powerConsumption = -1;
-
+        int totalPixels = -1;
         //try to read the image
         try{
             powerConsumption = getPowerConsumptionOfImage(imageLocation);
+            totalPixels = getNumberOfPixels(imageLocation);
         } 
         catch(IOException ie) {
             ie.printStackTrace();
@@ -35,6 +36,7 @@ public class Calculator {
 
         //print out the total power consuption
         System.out.println("Toatal Power Used: " + powerConsumption + " mA");
+        System.out.println("Total Pixels in the Image: " + totalPixels);
     }
 
     //calculates the total power usage of one pixel
@@ -79,7 +81,17 @@ public class Calculator {
                 totalPowerConsumption += calculateChargeConsumptionPerPixel(red, green, blue);
             }
         }
-        return  totalPowerConsumption;
+        return totalPowerConsumption;
+    }
+
+    public static int getNumberOfPixels(String location) throws IOException{
+        //imports the image
+        File file = new File(location);
+        BufferedImage image = ImageIO.read(file);
+        
+        //total number of pixels
+        int totalPixelCount = image.getWidth() * image.getHeight();
+        return totalPixelCount;
     }
     
 }
