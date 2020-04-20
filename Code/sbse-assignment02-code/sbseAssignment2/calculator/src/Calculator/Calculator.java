@@ -12,7 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.Color;
 
-
 public class Calculator {
 
     /**
@@ -35,18 +34,30 @@ public class Calculator {
         }
 
         //print out the total power consuption
-        System.out.println("Toatal Power Used: " + powerConsumption);
+        System.out.println("Toatal Power Used: " + powerConsumption + " mA");
     }
 
     //calculates the total power usage of one pixel
-    public static float calculateChargeConsumptionPerPixel(int red, int green, int blue){
-        float powerUseage = 1;
-        
-        
-        //calculate power usage of single pixel
+    public static double calculateChargeConsumptionPerPixel(int red, int green, int blue){
+        //calculated using the Nexus 6 excel sheets
+        double redPowerUsage = 3.255e-5;
+        double greenPowerUsage = 3.797e-5;
+        double bluePowerUsage = 6.51e-5;
 
-
-        return  powerUseage;
+        //calculates the percentage of brightness out of 255 (255 is the max value)
+        float redPercentageValue = (float) red / 255;
+        float greenPercentageValue = (float) green / 255;
+        float bluePercentageValue = (float) blue / 255;
+        
+        //total usage for each pixel
+        double totalRedPowerUsage = redPowerUsage * redPercentageValue;
+        double totalGreenPowerUsage = greenPowerUsage * greenPercentageValue;
+        double totalBluePowerUsage = bluePowerUsage * bluePercentageValue;
+        
+        //total usage for all red, green, blue pixels
+        double totalPowerUsage = totalRedPowerUsage + totalGreenPowerUsage + totalBluePowerUsage;
+        
+        return totalPowerUsage;
     }
 
     public static float getPowerConsumptionOfImage(String location) throws IOException {
@@ -66,7 +77,6 @@ public class Calculator {
 
                 //adds the calculated power consumtion to the total
                 totalPowerConsumption += calculateChargeConsumptionPerPixel(red, green, blue);
-                
             }
         }
         return  totalPowerConsumption;
