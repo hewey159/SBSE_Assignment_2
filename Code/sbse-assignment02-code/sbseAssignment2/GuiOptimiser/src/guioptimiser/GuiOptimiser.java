@@ -25,7 +25,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-import junit.framework.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,9 +38,9 @@ import java.util.List;
 public class GuiOptimiser {
 
     private static String TARGET_APP = "calculator.jar";
-    //private static final String TARGET_APP = "simpleApp.jar";
+    // private static String TARGET_APP = "simpleApp.jar";
     private static final String TARGET_APP_COLOR = "color.csv";
-    private static final int TARGET_APP_RUNNINGTIME = 600;
+    private static final int TARGET_APP_RUNNINGTIME = 1000;
     private static final String JAVA_COMMAND = "java -jar ";
     private static String parentDir = "";
     private static int screenshotsNum = 1000;
@@ -49,18 +48,21 @@ public class GuiOptimiser {
     private static ArrayList<Long> results = new ArrayList<Long>();
     private static String line = "";
     private static long solution = 999999999;
-    private static int RS = 1;
+    private static int RS = 2;
     
     private static int temperature = 100; 
     private static int noResult = 0;
     
     private static ArrayList<String> guiComponents = new ArrayList<>();
     private static ArrayList<ArrayList<Integer>> RGB = new ArrayList<>();
+    private static ArrayList<ArrayList<Integer>> prevRGB = new ArrayList<>();
     
     private static ArrayList<ArrayList<Integer>> RGBNew = new ArrayList<>();
     private static Random randomInt = new Random();
     
     private static String filename = "";
+
+    private static int numberOfScreenShots = 0;
 
     /**
      * @param args the command line arguments
@@ -88,9 +90,12 @@ public class GuiOptimiser {
         for (int i = 0; i < screenshotsNum; i++) //RunTargetApp runTargetApp = new RunTargetApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
         {
             //runApp(parentDir.concat(TARGET_APP), TARGET_APP_RUNNINGTIME);
-            runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+            //runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
             if(RS == 1) {
             	randomSearch(screenshotsNum,i);
+            } 
+            if(RS == 2){
+                hillClimbingSearch(screenshotsNum, i, 50);
             }
         }
         writeResultsToExcel(parentDir.concat("finalResults.csv"),results);
@@ -102,8 +107,8 @@ public class GuiOptimiser {
             //java -jar C:\Users\Mahmoud-Uni\Documents\NetBeansProjects\calculator\dist\calculator.jar
 
             //path = "\""+path+"\"";
-            System.out.println("Target App" + path);
-
+            //System.out.println("Target App" + path);
+            
             Runtime runTime = Runtime.getRuntime();
             Process process = runTime.exec(JAVA_COMMAND.concat(path));
             try {
@@ -121,7 +126,7 @@ public class GuiOptimiser {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Target App");
+            //System.out.println("Target App");
             process.destroy();
         } catch (IOException e) {
             e.printStackTrace();
@@ -268,12 +273,14 @@ public class GuiOptimiser {
 
             saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, RGB);
 
+            prevRGB = RGB;
+            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
+    
     public static void saveToCSV(String filePath, ArrayList<String> guiComponents, ArrayList<ArrayList<Integer>> RGB) {
         try {
             BufferedWriter br = new BufferedWriter(new FileWriter(new File(filePath)));
@@ -319,5 +326,140 @@ public class GuiOptimiser {
             e.printStackTrace();
         }
         return dir;
+    }
+
+
+    //hill climbing search with give size of neigbourhood
+    public static void hillClimbingSearch(int totalScreenShots, int current, int sizeOfNeighbourHood) throws IOException{
+        //the first claculator has a random intal value
+        if(current == 0){
+            changeColorAll();
+        }
+
+        //run method until we used up all the screenshots        
+        while(numberOfScreenShots < totalScreenShots){
+            //generate neibouring solutions
+            System.out.println("generating neigbours based of best prev value");
+            System.out.println("generating neigbours based of best prev value");
+            System.out.println("generating neigbours based of best prev value");
+            System.out.println(prevRGB);
+            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood);
+            
+            for (ArrayList<ArrayList<Integer>> RGBValue : RGBNeigbours) {
+                                
+
+                //run app and save to file so app can read it
+                if(TARGET_APP == "calculator.jar") addGUIComponetsCalculator();
+
+                runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+                saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, RGBValue);
+
+                
+                // get the result of the charge cosumtion
+                long result = calculateChargeConsumptionPerPixel(parentDir.concat(filename));
+
+                //check if solution is good
+                if ( result < solution) {
+                    solution = result;
+                    prevRGB = RGBValue;
+                    System.out.println(prevRGB);
+                    System.out.println(solution);
+                    System.out.println(filename);
+                }
+                else {
+                    //delete bad solution screenshots
+                    deleteCapture();
+                }
+                numberOfScreenShots++;
+            }
+        }
+    }
+
+    //adds the componets needed for the calculator
+    public static void addGUIComponetsCalculator(){
+
+        //guiComponents contains GUI components' name.
+        guiComponents = new ArrayList<>();
+        guiComponents.add("mainFrameColor"); // both apps
+        guiComponents.add("jButton1");// both apps
+        guiComponents.add("jButton2");
+        guiComponents.add("jButton3");
+        guiComponents.add("jButton4");
+        guiComponents.add("jButton5");
+        guiComponents.add("jButton6");
+        guiComponents.add("jButton7");
+        guiComponents.add("jButton8");
+        guiComponents.add("jButton9");
+        guiComponents.add("jButton10");
+        guiComponents.add("jButton11");
+        guiComponents.add("jButton12");
+        guiComponents.add("jButton13");
+        guiComponents.add("jButton14");
+        guiComponents.add("jButton15");
+        guiComponents.add("jButton16");
+        guiComponents.add("jButton17");
+        guiComponents.add("jButton18");
+        
+        guiComponents.add("jTextField1");// both apps
+        guiComponents.add("jTextField1TextColor");// both apps
+
+        guiComponents.add("jLabel1");// both apps
+
+        guiComponents.add("jPanel1");// both apps
+        guiComponents.add("jPanel2");
+        guiComponents.add("jPanel3");
+        guiComponents.add("jPanel4");
+        guiComponents.add("jPanel5");
+    }
+
+    //returns a neigbourhood from a give RGB array
+    public static ArrayList<ArrayList<ArrayList<Integer>>> GenerateNeighbours(ArrayList<ArrayList<Integer>> currentRGB, int sizeOfNeighbourHood){
+        ArrayList<ArrayList<ArrayList<Integer>>> allRGBNeigbours = new ArrayList<>();
+        
+        //generate neibours
+        //loop over each RGB component
+        for(int i = 0; i < currentRGB.size() - 1; i++){
+            //make copy of current RGB array
+            ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>(currentRGB);
+            
+            //get a random RGB index colour
+            int index = randomInt.nextInt(3);
+            int currentRGBValue = currentRGB.get(i).get(index);
+            
+            //randomlly pick either to add or subtract colours
+            if(randomInt.nextInt(2) == 0){
+                if(currentRGBValue - sizeOfNeighbourHood < 0) continue;
+                currentRGBValue -= sizeOfNeighbourHood;
+            }else{
+                if(currentRGBValue + sizeOfNeighbourHood > 255) continue;
+                currentRGBValue += sizeOfNeighbourHood;
+            }
+
+
+            //create array with the new values in it            
+            ArrayList<Integer> newRGB = new ArrayList<Integer>(currentRGB.get(i));
+            newRGB.set(index, currentRGBValue);
+            temp.set(i, newRGB);
+
+            //if neigbour doesn't satsify, dont add it to the neighbourhood
+            if(EuclideanDistanceBetweenTheColours(temp.get(20), temp.get(21)) < 128){
+                System.out.println("Limted by Euclidean Distance");
+                continue;
+            }
+            allRGBNeigbours.add(temp);
+        }
+        return allRGBNeigbours;
+    }
+
+    //reutrns the difference between colors where ArrayList<Integer> = [red, green, blue]
+    public static double EuclideanDistanceBetweenTheColours(ArrayList<Integer> colour1, ArrayList<Integer> colour2){
+        
+        double red = Math.pow(colour1.get(0) - colour2.get(0), 2);
+        double green = Math.pow(colour1.get(1) - colour2.get(1), 2);
+        double blue = Math.pow(colour1.get(2) - colour2.get(2), 2);
+
+        double distance = Math.sqrt(red + green + blue);
+        System.out.println(distance);
+        return distance;
     }
 }
