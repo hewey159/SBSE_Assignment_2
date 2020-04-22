@@ -43,12 +43,12 @@ public class GuiOptimiser {
     private static final int TARGET_APP_RUNNINGTIME = 1000;
     private static final String JAVA_COMMAND = "java -jar ";
     private static String parentDir = "";
-    private static int screenshotsNum = 1000;
+    private static int screenshotsNum = 20;
     private static int screenshot = 1;
     private static ArrayList<Long> results = new ArrayList<Long>();
     private static String line = "";
     private static long solution = 999999999;
-    private static int RS = 1;
+    private static int RS = 2;
     
     private static int temperature = 100; 
     private static int noResult = 0;
@@ -63,8 +63,8 @@ public class GuiOptimiser {
     private static String filename = "";
 
     private static int numberOfScreenShots = 0;
-    private static int hillClimbingNeigbourhoodSize = 150;
-    private static int numberOfNeighbours = 10;
+    private static int hillClimbingNeigbourhoodSize = 50;
+    private static int numberOfNeighbours = 20;
 
     /**
      * @param args the command line arguments
@@ -96,9 +96,9 @@ public class GuiOptimiser {
             if(RS == 1) {
             	randomSearch(screenshotsNum,i);
             } 
-            if(RS == 2){
-                hillClimbingSearch(screenshotsNum, i, hillClimbingNeigbourhoodSize, numberOfNeighbours);
-            }
+        }
+        if(RS == 2){
+            hillClimbingSearch(screenshotsNum, hillClimbingNeigbourhoodSize, numberOfNeighbours);
         }
         writeResultsToExcel(parentDir.concat("finalResults.csv"),results);
 
@@ -278,7 +278,6 @@ public class GuiOptimiser {
 
             prevRGB = RGB;
             
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -333,20 +332,20 @@ public class GuiOptimiser {
 
 
     //hill climbing search with give size of neigbourhood
-    public static void hillClimbingSearch(int totalScreenShots, int current, int sizeOfNeighbourHood, int numberOfNeighbours) throws IOException{
+    public static void hillClimbingSearch(int totalScreenShots, int sizeOfNeighbourHood, int numberOfNeighbours) throws IOException{
         //the first claculator has a random intal value
-        if(current == 0){
-            changeColorAll();
-        }
+        
+        //generate a random RGB array
+        changeColorAll();
+        boolean betterNeighbourFound = true;
 
         //run method until we used up all the screenshots        
-        while(numberOfScreenShots < totalScreenShots){
+        while((numberOfScreenShots < totalScreenShots)){
+            
             //generate neibouring solutions
+            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood, numberOfNeighbours);
             
-            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood,numberOfNeighbours);
-            
-            System.out.println("new neigbourhood");
-            System.out.println(RGBNeigbours.size());
+            betterNeighbourFound = false;
             for (ArrayList<ArrayList<Integer>> RGBValue : RGBNeigbours) {
                 //run app and save to file so app can read it
                 addGUIComponetsCalculator();
@@ -362,6 +361,9 @@ public class GuiOptimiser {
                 if ( result < solution) {
                     solution = result;
                     prevRGB = RGBValue;
+                    betterNeighbourFound = true;
+                    results.add( result );
+                    
                     System.out.println(solution);
                     System.out.println(filename);
                 }
@@ -372,9 +374,15 @@ public class GuiOptimiser {
                 numberOfScreenShots++;
             }
             
+            //reduce the scope of the neighbourhood
             if(sizeOfNeighbourHood > 5){
                 float newSize = sizeOfNeighbourHood / 1.1f;
                 sizeOfNeighbourHood = (int) newSize;
+            }
+            //if no new neigbours are found this is the local optimum so try anoter random starting point
+            if(!betterNeighbourFound){
+                System.out.println("no better Neighbour found generating another random");
+                changeColorAll();
             }
         }
     }
@@ -435,10 +443,10 @@ public class GuiOptimiser {
                 int randomNumber = randomInt.nextInt(3);
                 //randomlly pick either to add or subtract colours or do nothing
                 if(randomNumber == 0){
-                    if(currentRGBValue - sizeOfNeighbourHood >= 0) currentRGBValue -= sizeOfNeighbourHood;
+                    if(currentRGBValue - sizeOfNeighbourHood >= 0) currentRGBValue -= randomInt.nextInt(sizeOfNeighbourHood);
                 }
                 else if(randomNumber == 1){
-                    if(currentRGBValue + sizeOfNeighbourHood <= 255) currentRGBValue += sizeOfNeighbourHood;
+                    if(currentRGBValue + sizeOfNeighbourHood <= 255) currentRGBValue += randomInt.nextInt(sizeOfNeighbourHood);
                 }
                 else{
                     //do nothing
