@@ -48,7 +48,7 @@ public class GuiOptimiser {
     private static ArrayList<Long> results = new ArrayList<Long>();
     private static String line = "";
     private static long solution = 999999999;
-    private static int RS = 2;
+    private static int RS = 1;
     
     private static int temperature = 100; 
     private static int noResult = 0;
@@ -63,6 +63,8 @@ public class GuiOptimiser {
     private static String filename = "";
 
     private static int numberOfScreenShots = 0;
+    private static int hillClimbingNeigbourhoodSize = 150;
+    private static int numberOfNeighbours = 10;
 
     /**
      * @param args the command line arguments
@@ -95,7 +97,7 @@ public class GuiOptimiser {
             	randomSearch(screenshotsNum,i);
             } 
             if(RS == 2){
-                hillClimbingSearch(screenshotsNum, i, 50);
+                hillClimbingSearch(screenshotsNum, i, hillClimbingNeigbourhoodSize, numberOfNeighbours);
             }
         }
         writeResultsToExcel(parentDir.concat("finalResults.csv"),results);
@@ -154,8 +156,9 @@ public class GuiOptimiser {
     	    }
     	}
     	
-    	System.out.printf("pixelCount = %d Total Consumtion = %d Number = %d %n", pixelCount, consumption, screenshot);
-    	
+    	//System.out.printf("pixelCount = %d Total Consumtion = %d Number = %d %n", pixelCount, consumption, screenshot);
+        System.out.println(screenshot);
+        
     	screenshot++;
     	return consumption/3686400;
     }
@@ -330,7 +333,7 @@ public class GuiOptimiser {
 
 
     //hill climbing search with give size of neigbourhood
-    public static void hillClimbingSearch(int totalScreenShots, int current, int sizeOfNeighbourHood) throws IOException{
+    public static void hillClimbingSearch(int totalScreenShots, int current, int sizeOfNeighbourHood, int numberOfNeighbours) throws IOException{
         //the first claculator has a random intal value
         if(current == 0){
             changeColorAll();
@@ -339,17 +342,14 @@ public class GuiOptimiser {
         //run method until we used up all the screenshots        
         while(numberOfScreenShots < totalScreenShots){
             //generate neibouring solutions
-            System.out.println("generating neigbours based of best prev value");
-            System.out.println("generating neigbours based of best prev value");
-            System.out.println("generating neigbours based of best prev value");
-            System.out.println(prevRGB);
-            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood);
             
+            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood,numberOfNeighbours);
+            
+            System.out.println("new neigbourhood");
+            System.out.println(RGBNeigbours.size());
             for (ArrayList<ArrayList<Integer>> RGBValue : RGBNeigbours) {
-                                
-
                 //run app and save to file so app can read it
-                if(TARGET_APP == "calculator.jar") addGUIComponetsCalculator();
+                addGUIComponetsCalculator();
 
                 runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
                 saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, RGBValue);
@@ -362,7 +362,6 @@ public class GuiOptimiser {
                 if ( result < solution) {
                     solution = result;
                     prevRGB = RGBValue;
-                    System.out.println(prevRGB);
                     System.out.println(solution);
                     System.out.println(filename);
                 }
@@ -371,6 +370,11 @@ public class GuiOptimiser {
                     deleteCapture();
                 }
                 numberOfScreenShots++;
+            }
+            
+            if(sizeOfNeighbourHood > 5){
+                float newSize = sizeOfNeighbourHood / 1.1f;
+                sizeOfNeighbourHood = (int) newSize;
             }
         }
     }
@@ -413,42 +417,67 @@ public class GuiOptimiser {
     }
 
     //returns a neigbourhood from a give RGB array
-    public static ArrayList<ArrayList<ArrayList<Integer>>> GenerateNeighbours(ArrayList<ArrayList<Integer>> currentRGB, int sizeOfNeighbourHood){
+    public static ArrayList<ArrayList<ArrayList<Integer>>> GenerateNeighbours(ArrayList<ArrayList<Integer>> currentRGB, int sizeOfNeighbourHood, int numberOfNeighbours){
         ArrayList<ArrayList<ArrayList<Integer>>> allRGBNeigbours = new ArrayList<>();
         
         //generate neibours
         //loop over each RGB component
-        for(int i = 0; i < currentRGB.size() - 1; i++){
-            //make copy of current RGB array
-            ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>(currentRGB);
-            
-            //get a random RGB index colour
-            int index = randomInt.nextInt(3);
-            int currentRGBValue = currentRGB.get(i).get(index);
-            
-            //randomlly pick either to add or subtract colours
-            if(randomInt.nextInt(2) == 0){
-                if(currentRGBValue - sizeOfNeighbourHood < 0) continue;
-                currentRGBValue -= sizeOfNeighbourHood;
-            }else{
-                if(currentRGBValue + sizeOfNeighbourHood > 255) continue;
-                currentRGBValue += sizeOfNeighbourHood;
+        for(int i = 0; i < numberOfNeighbours; i++){
+            ArrayList<ArrayList<Integer>> neighbourRGB = new ArrayList<ArrayList<Integer>>();
+
+            for(int j = 0; j < currentRGB.size(); j++){
+                
+                //get a random RGB index colour
+                int index = randomInt.nextInt(3);
+                int currentRGBValue = currentRGB.get(j).get(index);
+                
+
+                int randomNumber = randomInt.nextInt(3);
+                //randomlly pick either to add or subtract colours or do nothing
+                if(randomNumber == 0){
+                    if(currentRGBValue - sizeOfNeighbourHood >= 0) currentRGBValue -= sizeOfNeighbourHood;
+                }
+                else if(randomNumber == 1){
+                    if(currentRGBValue + sizeOfNeighbourHood <= 255) currentRGBValue += sizeOfNeighbourHood;
+                }
+                else{
+                    //do nothing
+                }
+                
+                //create array with the new values in it            
+                ArrayList<Integer> newRGB = new ArrayList<Integer>(currentRGB.get(j));
+                newRGB.set(index, currentRGBValue);
+                
+                neighbourRGB.add(newRGB);
+                
             }
-
-
-            //create array with the new values in it            
-            ArrayList<Integer> newRGB = new ArrayList<Integer>(currentRGB.get(i));
-            newRGB.set(index, currentRGBValue);
-            temp.set(i, newRGB);
 
             //if neigbour doesn't satsify, dont add it to the neighbourhood
-            if(EuclideanDistanceBetweenTheColours(temp.get(20), temp.get(21)) < 128){
-                System.out.println("Limted by Euclidean Distance");
-                continue;
+            if(isNotValidEuclidenDistance(neighbourRGB)){
+                // System.out.println("Limted by Euclidean Distance");
+            }else{
+                allRGBNeigbours.add(neighbourRGB);
             }
-            allRGBNeigbours.add(temp);
         }
         return allRGBNeigbours;
+    }
+
+    public static boolean isNotValidEuclidenDistance(ArrayList<ArrayList<Integer>> inputRGB){
+        ArrayList<Integer> colour1 = new ArrayList<Integer>();
+        ArrayList<Integer> colour2 = new ArrayList<Integer>();
+        if(TARGET_APP.equals("calculator.jar")){
+            colour1 = inputRGB.get(20);
+            colour2 = inputRGB.get(21);
+        }
+        if(TARGET_APP.equals("simpleApp.jar")){
+            colour1 = inputRGB.get(2);
+            colour2 = inputRGB.get(3);
+        }
+
+        if(EuclideanDistanceBetweenTheColours(colour1, colour2) < 128){
+            return false;
+        }
+        return true;
     }
 
     //reutrns the difference between colors where ArrayList<Integer> = [red, green, blue]
@@ -459,7 +488,7 @@ public class GuiOptimiser {
         double blue = Math.pow(colour1.get(2) - colour2.get(2), 2);
 
         double distance = Math.sqrt(red + green + blue);
-        System.out.println(distance);
+        
         return distance;
     }
 }
