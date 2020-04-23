@@ -37,20 +37,30 @@ import java.util.List;
  */
 public class GuiOptimiser {
 
-    private static String TARGET_APP = "calculator.jar";
-    // private static String TARGET_APP = "simpleApp.jar";
+    //private static String TARGET_APP = "calculator.jar";
+     private static String TARGET_APP = "simpleApp.jar";
     private static final String TARGET_APP_COLOR = "color.csv";
-    private static final int TARGET_APP_RUNNINGTIME = 1000;
+    private static final int TARGET_APP_RUNNINGTIME = 2000;
     private static final String JAVA_COMMAND = "java -jar ";
     private static String parentDir = "";
-    private static int screenshotsNum = 20;
+    private static int screenshotsNum = 1000;
     private static int screenshot = 1;
     private static ArrayList<Long> results = new ArrayList<Long>();
     private static String line = "";
     private static long solution = 999999999;
-    private static int RS = 2;
+    private static long bestsolution = 999999999;
+    private static int RS = 3;
     
-    private static int temperature = 100; 
+    //simulated annealing operators
+    private static double temperature = 110.0;
+    private static double coolingRate = 0.99;
+    private final static double minTemperature = 0.5;
+    private static ArrayList<ArrayList<Integer>> randomRGB = new ArrayList<>();
+    private static Random randomGenerator = new Random();
+    private static int saNeigbourhoodSize = 200;
+    private static int sanumberOfNeighbours = 20 ;
+    
+ 
     private static int noResult = 0;
     
     private static ArrayList<String> guiComponents = new ArrayList<>();
@@ -96,10 +106,14 @@ public class GuiOptimiser {
             if(RS == 1) {
             	randomSearch(screenshotsNum,i);
             } 
+            if(RS == 3) {
+            	simulatedAnnealingSearch(screenshotsNum,i,  saNeigbourhoodSize, sanumberOfNeighbours);
+            }
         }
         if(RS == 2){
             hillClimbingSearch(screenshotsNum, hillClimbingNeigbourhoodSize, numberOfNeighbours);
         }
+      
         writeResultsToExcel(parentDir.concat("finalResults.csv"),results);
 
     }
@@ -498,5 +512,135 @@ public class GuiOptimiser {
         double distance = Math.sqrt(red + green + blue);
         
         return distance;
+    }
+    
+    public static void simulatedAnnealingSearch(int totalScreenShots, int current, int sizeOfNeighbourHood, int numberOfNeighbours) throws IOException{
+    	
+        //generate one random solution
+        if(current == 0){
+            changeColorAll();
+        }
+
+        //run method until 1000 screenshots are reached       
+        while((numberOfScreenShots < totalScreenShots)){
+        	
+            //generate neighbouring solutions
+            ArrayList<ArrayList<ArrayList<Integer>>> RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood,numberOfNeighbours);
+            
+            System.out.println("new neigbourhoods");
+            System.out.println(RGBNeigbours.size());
+            
+            //variable for deciding the new neighbour usage
+            boolean usenew = false;
+            
+            //loop through the neighbours
+            
+            for (ArrayList<ArrayList<Integer>> RGBValue : RGBNeigbours) {
+            	
+            	//pick one neighbour at random 
+            	int index = randomGenerator.nextInt(RGBNeigbours.size());
+            	randomRGB = RGBNeigbours.get(index);
+            	//System.out.println("current " + RGBValue);
+            	//System.out.println("random " + randomRGB);
+            	
+            	
+            	//evaluate the chargeConsumption
+                //run app and save to file so app can read it
+                addGUIComponetsCalculator();
+                runApp(TARGET_APP, TARGET_APP_RUNNINGTIME);
+                
+                //neighbour result
+                long neighbourresult1 = calculateChargeConsumptionPerPixel(parentDir.concat(filename));
+                //difference between neighbour/working solution  and current solution
+                long chargedifference = solution - neighbourresult1;
+            	
+               
+                System.out.println("current consumption " + solution);
+                System.out.println("working consumption " + neighbourresult1);
+                
+                
+                //check if current neighbour solution is good
+                if ( neighbourresult1 < solution) {
+                		usenew = true; 
+                		solution = neighbourresult1;
+                		
+                }
+                
+                //allow bad neighbours with certain probability   p = exp(loss/temp) < 1
+                else if (Math.exp((chargedifference) / temperature) < Math.random()) {                	
+                	 solution = neighbourresult1;
+                	 prevRGB = randomRGB;
+                	 results.add(neighbourresult1 );
+                	 usenew = true;
+                	 System.out.println("worse neighbour, still allowed with certain probability");
+                	 System.out.println(solution);
+                    // System.out.println(filename);
+     
+                }else {
+                    //delete bad solution screenshots
+                    deleteCapture();
+                }
+                
+                //if we are using the new value, compare it with previous best solutions
+                if(usenew) {
+                	usenew = false;
+                	prevRGB = randomRGB;
+            		if(neighbourresult1 < bestsolution ) {
+            			bestsolution = neighbourresult1;
+            			saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, prevRGB);
+            			
+            		}else
+            		{
+            			solution = neighbourresult1;
+            			saveToCSV(parentDir.concat(TARGET_APP_COLOR), guiComponents, prevRGB);
+            			//delete unwanted screenshots
+            			deleteCapture();
+            			
+            		}
+            		
+                	
+                }
+                
+               
+                System.out.println("best solution "+ bestsolution);
+                System.out.println("file name " + filename);
+                
+               
+              // RGBNeigbours = GenerateNeighbours(prevRGB, sizeOfNeighbourHood,numberOfNeighbours);
+                
+                //reduce the scope of the neighbourhood
+                if(sizeOfNeighbourHood > 5){
+                    float newSize = sizeOfNeighbourHood / 1.1f;
+                    sizeOfNeighbourHood = (int) newSize;
+                }
+               
+                numberOfScreenShots++;
+                
+                
+                System.out.println("temp " + temperature );
+                
+                //reduce the temperature 
+                temperature*=coolingRate;
+                
+                //if the system cools down before the 1000 screenshots, restart the system
+                if (temperature < minTemperature) {
+                	
+                	System.out.println("Temperature " + temperature);
+                	System.out.println("Starting again");
+                	changeColorAll();
+                	temperature = 110.0;
+                	
+                }
+                
+                
+             
+                
+              
+            }
+            
+           
+            
+          
+        }
     }
 }
