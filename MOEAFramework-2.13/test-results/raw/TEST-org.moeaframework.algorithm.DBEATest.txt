@@ -1,0 +1,5 @@
+Testsuite: org.moeaframework.algorithm.DBEATest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.09 sec
+
+Testcase: test took 0 sec
+	SKIPPED: Must download DBEA Matlab/Octave code to use this test

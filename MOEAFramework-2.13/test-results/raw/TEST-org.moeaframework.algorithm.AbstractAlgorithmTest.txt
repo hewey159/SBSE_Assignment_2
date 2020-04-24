@@ -1,0 +1,16 @@
+Testsuite: org.moeaframework.algorithm.AbstractAlgorithmTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 sec
+------------- Standard Error -----------------
+an error occurred while writing the state file
+------------- ---------------- ---------------
+
+Testcase: testLifecycle1 took 0.004 sec
+Testcase: testLifecycle2 took 0 sec
+Testcase: testLifecycle3 took 0 sec
+Testcase: testResumable took 0.004 sec
+Testcase: testNumberOfEvaluations took 0 sec
+Testcase: testLifecycleError1 took 0 sec
+Testcase: testLifecycleError2 took 0 sec
+Testcase: testLifecycleError3 took 0 sec
+Testcase: testLifecycleError4 took 0 sec
+Testcase: testLifecycleError5 took 0 sec

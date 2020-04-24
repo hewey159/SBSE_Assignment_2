@@ -1,0 +1,9 @@
+Testsuite: org.moeaframework.algorithm.AdaptiveTimeContinuationTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.129 sec
+
+Testcase: testMaxPopulationSize took 0.027 sec
+Testcase: testPopulationRatio took 0.001 sec
+Testcase: testPopulationRatioConflictWithMaxPopulationSize took 0.003 sec
+Testcase: testEmptyArchive took 0.01 sec
+Testcase: testMaxWindow took 0.002 sec
+Testcase: testMinPopulationSize took 0 sec

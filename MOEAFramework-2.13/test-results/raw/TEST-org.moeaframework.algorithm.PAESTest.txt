@@ -1,0 +1,7 @@
+Testsuite: org.moeaframework.algorithm.PAESTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.588 sec
+
+Testcase: testUF1 took 6.963 sec
+Testcase: testDTLZ1 took 5.742 sec
+Testcase: testDTLZ2 took 6.873 sec
+Testcase: testDTLZ7 took 6.936 sec

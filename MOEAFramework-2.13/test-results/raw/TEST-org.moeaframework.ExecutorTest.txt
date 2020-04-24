@@ -1,0 +1,14 @@
+Testsuite: org.moeaframework.ExecutorTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.817 sec
+------------- Standard Error -----------------
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+checkpoints not supported when running multiple seeds
+------------- ---------------- ---------------
+
+Testcase: testRun took 0.221 sec
+Testcase: testProgressListenerSingleSeed took 0.046 sec
+Testcase: testNoProblem took 0 sec
+Testcase: testNoAlgorithm took 0.001 sec
+Testcase: testProgressListenerMultipleSeed took 0.135 sec
+Testcase: testRunSeeds took 0.289 sec

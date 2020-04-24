@@ -1,0 +1,14 @@
+Testsuite: org.moeaframework.ProblemBuilderTest
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.186 sec
+
+Testcase: testReferenceSetFromProblemFactory took 0.051 sec
+Testcase: testConstructorArguments took 0.009 sec
+Testcase: testReferenceSetFromFile took 0.011 sec
+Testcase: testNoProblem1 took 0.001 sec
+Testcase: testNoProblem2 took 0 sec
+Testcase: testProblemFactory took 0.004 sec
+Testcase: testNoReferenceSet took 0.011 sec
+Testcase: testConstructorArgumentsWidening took 0.001 sec
+Testcase: testWithSameProblemAs took 0.002 sec
+Testcase: testGetProblemInstance took 0.001 sec
+Testcase: testCosntructorArgumentsException took 0 sec

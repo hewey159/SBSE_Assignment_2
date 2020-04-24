@@ -1,0 +1,29 @@
+Testsuite: org.moeaframework.AnalyzerTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.251 sec
+------------- Standard Output ---------------
+NSGAII:
+    GenerationalDistance: 
+        Min: 8.63727711960241E-4
+        Median: 9.090016201576549E-4
+        Max: 0.001095718374839438
+        Count: 5
+        Indifferent: []
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+no indicators selected
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+no termination conditions set, setting to 25,000 max evaluations
+------------- ---------------- ---------------
+
+Testcase: testReferenceSetFromProblemFactory took 0.651 sec
+Testcase: testAll took 5.251 sec
+Testcase: testEmpty took 0 sec
+Testcase: testReferenceSetFromFile took 0.334 sec
+Testcase: testNoProblem took 0.357 sec
+Testcase: testNoIndicators took 0.283 sec
+Testcase: testOneSampleStatisticalResults took 1.294 sec

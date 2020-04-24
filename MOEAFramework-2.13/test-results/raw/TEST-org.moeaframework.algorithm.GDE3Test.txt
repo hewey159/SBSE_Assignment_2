@@ -1,0 +1,7 @@
+Testsuite: org.moeaframework.algorithm.GDE3Test
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.468 sec
+
+Testcase: testUF1 took 5.341 sec
+Testcase: testDTLZ1 took 4.082 sec
+Testcase: testDTLZ2 took 6.536 sec
+Testcase: testDTLZ7 took 10.425 sec

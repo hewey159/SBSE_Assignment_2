@@ -1,0 +1,9 @@
+Testsuite: org.moeaframework.algorithm.NSGAIITest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.945 sec
+
+Testcase: testUF1 took 6.503 sec
+Testcase: testDTLZ1 took 4.343 sec
+Testcase: testDTLZ2 took 5.203 sec
+Testcase: testDTLZ7 took 5.003 sec
+Testcase: testSelection took 4.942 sec
+Testcase: testSelectionIsUnique took 0.876 sec

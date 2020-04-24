@@ -1,0 +1,8 @@
+Testsuite: org.moeaframework.algorithm.MOEADTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.493 sec
+
+Testcase: testUF1 took 5.973 sec
+Testcase: testDTLZ1 took 5.145 sec
+Testcase: testDTLZ2 took 5.235 sec
+Testcase: testDTLZ7 took 5.057 sec
+Testcase: testSelection took 0.002 sec

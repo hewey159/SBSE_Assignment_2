@@ -1,0 +1,5 @@
+Testsuite: org.moeaframework.algorithm.EpsilonProgressContinuationTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.109 sec
+
+Testcase: testNoProgress took 0.025 sec
+Testcase: testProgress took 0.002 sec

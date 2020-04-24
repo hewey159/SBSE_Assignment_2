@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="192-168-1-7.tpgi.com.au" name="org.moeaframework.LocalizationTest" skipped="0" tests="2" time="0.129" timestamp="2020-04-20T08:55:08">
+  <properties>
+    <property name="ant.library.dir" value="/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib" />
+    <property name="copyright" value="Copyright 2009-2019 MOEA Framework.  All rights reserved." />
+    <property name="java.specification.version" value="13" />
+    <property name="ant.project.name" value="MOEA Framework Testing" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="javadoc.title" value="MOEA Framework 2.13&lt;br /&gt;API Specification" />
+    <property name="java.class.path" value="/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/JMetal-4.3.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/commons-cli-1.2.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/commons-codec-1.8.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/commons-lang3-3.1.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/commons-math3-3.4.1.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/hamcrest-core-1.3.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/jcommon-1.0.20.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/jfreechart-1.0.15.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/junit-4.13.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/lib/rsyntaxtextarea.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/dist/MOEAFramework-2.13.jar:/Users/mandarmulye/Downloads/MOEAFramework-2.13/dist/MOEAFramework-2.13-Test.jar:/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib/ant-launcher.jar:/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib/ant.jar:/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib/ant-junit.jar:/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib/ant-junit4.jar" />
+    <property name="dist" value="dist" />
+    <property name="env.HOME" value="/Users/mandarmulye" />
+    <property name="java.debug" value="on" />
+    <property name="env.COMMAND_MODE" value="unix2003" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="java.vendor.url" value="https://java.oracle.com/" />
+    <property name="os.name" value="Mac OS X" />
+    <property name="java.vm.specification.version" value="13" />
+    <property name="results" value="test-results" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="env.JAVA_MAIN_CLASS_51006" value="org.eclipse.ant.internal.launching.remote.InternalAntRunner" />
+    <property name="user.country" value="AU" />
+    <property name="ant.file.MOEA Framework Testing" value="/Users/mandarmulye/Downloads/MOEAFramework-2.13/test.xml" />
+    <property name="env.JAVA_STARTED_ON_FIRST_THREAD_44388" value="1" />
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-13.jdk/Contents/Home/lib" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner org.moeaframework.LocalizationTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter,/Users/mandarmulye/Downloads/MOEAFramework-2.13/test-results/raw/TEST-org.moeaframework.LocalizationTest.txt formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/Users/mandarmulye/Downloads/MOEAFramework-2.13/test-results/raw/TEST-org.moeaframework.LocalizationTest.xml crashfile=/Users/mandarmulye/Downloads/MOEAFramework-2.13/test-results/raw/junitvmwatcher6229342986336587521.properties propsfile=/Users/mandarmulye/Downloads/MOEAFramework-2.13/test-results/raw/junit3396144036209712975.properties" />
+    <property name="javadoc.bottom" value="Copyright 2009-2019 MOEA Framework.  All rights reserved.&lt;br /&gt;Licensed under the &lt;a href=&quot;http://www.gnu.org/licenses/lgpl.html&quot;&gt;GNU Lesser General Public License&lt;/a&gt;.&lt;br /&gt;Return to the &lt;a href=&quot;http://www.moeaframework.org&quot; target=&quot;_top&quot;&gt;MOEA Framework homepage&lt;/a&gt;. &lt;!-- %TRACKER% --&gt;" />
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="jdk.debug" value="release" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="user.home" value="/Users/mandarmulye" />
+    <property name="user.language" value="en" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="java.version.date" value="2019-09-17" />
+    <property name="shortname" value="MOEAFramework" />
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-13.jdk/Contents/Home" />
+    <property name="version" value="2.13" />
+    <property name="env.APP_ICON_44580" value="../Resources/Eclipse.icns" />
+    <property name="file.separator" value="/" />
+    <property name="basedir" value="/Users/mandarmulye/Downloads/MOEAFramework-2.13" />
+    <property name="java.vm.compressedOopsMode" value="Zero based" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="ant.java.version" value="13" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="name" value="MOEA Framework" />
+    <property name="env.Apple_PubSub_Socket_Render" value="/private/tmp/com.apple.launchd.wmOqgKBoeg/Render" />
+    <property name="env.JAVA_STARTED_ON_FIRST_THREAD_44580" value="1" />
+    <property name="env.ANT_HOME" value="/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324" />
+    <property name="junit-exists" value="true" />
+    <property name="env.XPC_SERVICE_NAME" value="com.apple.xpc.launchd.oneshot.0x100000ca.eclipse-inst" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="java.runtime.version" value="13+33" />
+    <property name="description" value="An Open Source Java Framework for Multiobjective Optimization" />
+    <property name="user.name" value="mandarmulye" />
+    <property name="ant.file" value="/Users/mandarmulye/Downloads/MOEAFramework-2.13/test.xml" />
+    <property name="env.PATH" value="/usr/bin:/bin:/usr/sbin:/sbin" />
+    <property name="path.separator" value=":" />
+    <property name="os.version" value="10.14.6" />
+    <property name="env.LOGNAME" value="mandarmulye" />
+    <property name="env.XPC_FLAGS" value="0x0" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="env.__CF_USER_TEXT_ENCODING" value="0x1F5:0:15" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="ant.project.invoked-targets" value="test" />
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM" />
+    <property name="env.SHELL" value="/bin/bash" />
+    <property name="ON_TRAVIS" value="${ON_TRAVIS}" />
+    <property name="ant.core.lib" value="/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324/lib/ant.jar" />
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/" />
+    <property name="java.io.tmpdir" value="/var/folders/_p/ktmwlh5108l7kk79c0kdtrr00000gn/T/" />
+    <property name="java.version" value="13" />
+    <property name="ant.file.type.MOEA Framework Testing" value="file" />
+    <property name="user.dir" value="/Users/mandarmulye/Downloads/MOEAFramework-2.13" />
+    <property name="env.SSH_AUTH_SOCK" value="/private/tmp/com.apple.launchd.8X3994R9Dt/Listeners" />
+    <property name="java.major" value="6" />
+    <property name="os.arch" value="x86_64" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.home" value="/Users/mandarmulye/.p2/pool/plugins/org.apache.ant_1.10.7.v20190926-0324" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.10.7 compiled on September 1 2019" />
+    <property name="env.TMPDIR" value="/var/folders/_p/ktmwlh5108l7kk79c0kdtrr00000gn/T/" />
+    <property name="java.library.path" value="/Users/mandarmulye/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:." />
+    <property name="java.vm.info" value="mixed mode, sharing" />
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="java.vm.version" value="13+33" />
+    <property name="build" value="build" />
+    <property name="sun.io.unicode.encoding" value="UnicodeBig" />
+    <property name="env.JAVA_STARTED_ON_FIRST_THREAD_51006" value="1" />
+    <property name="java.class.version" value="57.0" />
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16" />
+    <property name="env.USER" value="mandarmulye" />
+    <property name="ant.project.default-target" value="test" />
+  </properties>
+  <testcase classname="org.moeaframework.LocalizationTest" name="testStaticMethods" time="0.025" />
+  <testcase classname="org.moeaframework.LocalizationTest" name="testInstanceMethods" time="0.002" />
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
